@@ -7,4 +7,6 @@ module com.example.bankapplication {
 
     opens com.example.bankapplication to javafx.fxml;
     exports com.example.bankapplication;
+    exports com.example.bankapplication.controllers;
+    opens com.example.bankapplication.controllers to javafx.fxml;
 }
