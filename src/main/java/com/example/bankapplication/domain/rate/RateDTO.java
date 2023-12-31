@@ -1,11 +1,9 @@
-package com.example.bankapplication.domain;
+package com.example.bankapplication.domain.rate;
 
 import java.time.LocalDate;
 import java.util.Locale;
 
-public class RateDTO {
+public abstract class RateDTO {
     public String no;
     public LocalDate effectiveDate;
-    public double bid;
-    public double ask;
 }

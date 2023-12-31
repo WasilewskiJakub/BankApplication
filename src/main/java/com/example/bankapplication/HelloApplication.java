@@ -14,7 +14,8 @@ import java.io.IOException;
 public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        CourseToPln.get(Table.C,Currency.GBP);
+        CourseToPln.getTableAB(Table.A,Currency.GBP);
+        CourseToPln.getTableC(Currency.USD);
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("MainPage.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1280, 720);
         stage.setTitle("Hello!");
