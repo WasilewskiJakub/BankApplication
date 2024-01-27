@@ -20,7 +20,7 @@ public class SceneSwitcher {
             stage = new Stage();
             stage.setResizable(false);
         }
-        Scene scene = new Scene(root);
+        Scene scene = new Scene(root,1280,720);
         stage.setScene(scene);
         stage.show();
         StageSetter.centerStage(stage);
