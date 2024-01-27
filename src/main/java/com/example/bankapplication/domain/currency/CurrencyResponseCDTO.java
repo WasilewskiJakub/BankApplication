@@ -1,6 +1,6 @@
-package com.example.bankapplication.domain.course;
+package com.example.bankapplication.domain.currency;
 
-import com.example.bankapplication.domain.rate.RateCDTO;
+import com.example.bankapplication.domain.currency.rate.RateCDTO;
 import java.util.List;
 public class CurrencyResponseCDTO extends CurrencyResponseDTO{
         public List<RateCDTO> rates;

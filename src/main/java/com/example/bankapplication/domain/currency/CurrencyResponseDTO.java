@@ -1,4 +1,4 @@
-package com.example.bankapplication.domain.course;
+package com.example.bankapplication.domain.currency;
 
 public abstract class CurrencyResponseDTO {
     public String table;

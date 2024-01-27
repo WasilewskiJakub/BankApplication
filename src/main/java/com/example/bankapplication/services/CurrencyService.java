@@ -1,22 +1,18 @@
 package com.example.bankapplication.services;
 
-import com.example.bankapplication.domain.course.CurrencyResponseABDTO;
-import com.example.bankapplication.domain.course.CurrencyResponseCDTO;
+import com.example.bankapplication.domain.currency.CurrencyResponseABDTO;
+import com.example.bankapplication.domain.currency.CurrencyResponseCDTO;
 import com.example.bankapplication.services.configuration.Currency;
-import com.example.bankapplication.services.configuration.NBPConector;
 import com.example.bankapplication.services.configuration.Table;
-import com.example.bankapplication.services.helper.ResponseReader;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 import com.example.bankapplication.services.helper.adapter.LocalDateAdapter;
 import com.google.gson.GsonBuilder;
 
-public class CourseToPln {
+public class CurrencyService extends APIConnectorService{
     public static CurrencyResponseABDTO getTableAB(Table table , Currency currency) throws IOException {
         if(table == Table.C)
             throw new IOException();
@@ -50,13 +46,5 @@ public class CourseToPln {
         return new GsonBuilder()
                 .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
                 .create().fromJson(response, CurrencyResponseABDTO.class);
-    }
-    private static String makeConnection(String path) throws IOException {
-        HttpURLConnection connection = (HttpURLConnection) NBPConector.GetRequestURL(path).openConnection();
-        connection.setRequestMethod("GET");
-        connection.setRequestProperty("Accept", "application/json");
-        connection.connect();
-        InputStream is = connection.getInputStream();
-        return ResponseReader.GetResponseBody(connection);
     }
 }

@@ -1,4 +1,4 @@
-package com.example.bankapplication.domain.rate;
+package com.example.bankapplication.domain.currency.rate;
 
 import java.time.LocalDate;
 
