@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21">
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.bankapplication.controllers.CurrencyExchangePageController">
   <columnConstraints>
     <ColumnConstraints hgrow="SOMETIMES" maxWidth="635.0" minWidth="10.0" prefWidth="316.0" />
     <ColumnConstraints hgrow="SOMETIMES" maxWidth="978.0" minWidth="10.0" prefWidth="964.0" />
@@ -62,8 +62,8 @@
                      <children>
                         <Label prefHeight="17.0" prefWidth="88.0" text="Początek okresu" />
                         <Label text="Koniec okresu" GridPane.columnIndex="1" />
-                        <DatePicker prefHeight="25.0" prefWidth="141.0" GridPane.rowIndex="1" />
-                        <DatePicker prefHeight="25.0" prefWidth="146.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <DatePicker fx:id="dateStart" prefHeight="25.0" prefWidth="141.0" GridPane.rowIndex="1" />
+                        <DatePicker fx:id="dateEnd" prefHeight="25.0" prefWidth="146.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                      </children>
                   </GridPane>
                   <Separator prefHeight="0.0" prefWidth="316.0" />
@@ -80,11 +80,11 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <CheckBox mnemonicParsing="false" prefHeight="17.0" prefWidth="66.0" text="złoto" />
-                        <CheckBox mnemonicParsing="false" text="Dolar [USD]" GridPane.rowIndex="1" />
-                        <CheckBox mnemonicParsing="false" text="Euro [EUR]" GridPane.rowIndex="2" />
-                        <CheckBox mnemonicParsing="false" text="Funt brytyjski [GBP}" GridPane.rowIndex="3" />
-                        <CheckBox mnemonicParsing="false" text="Frank szwajcarski [CHF]" GridPane.rowIndex="4" />
+                        <CheckBox fx:id="goldBox" mnemonicParsing="false" prefHeight="17.0" prefWidth="66.0" text="złoto" />
+                        <CheckBox fx:id="usdBox" mnemonicParsing="false" text="Dolar [USD]" GridPane.rowIndex="1" />
+                        <CheckBox fx:id="eurBox" mnemonicParsing="false" text="Euro [EUR]" GridPane.rowIndex="2" />
+                        <CheckBox fx:id="gbpBox" mnemonicParsing="false" text="Funt brytyjski [GBP}" GridPane.rowIndex="3" />
+                        <CheckBox fx:id="chfBox" mnemonicParsing="false" text="Frank szwajcarski [CHF]" GridPane.rowIndex="4" />
                      </children>
                   </GridPane>
                   <Separator prefWidth="200.0" />
@@ -96,7 +96,7 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <Button mnemonicParsing="false" text="Zastosuj" />
+                        <Button mnemonicParsing="false" onAction="#reloadChart" text="Zastosuj" />
                      </children>
                   </GridPane>
                </children>
@@ -125,7 +125,7 @@
                   <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="94.0" text="LOGOUT" GridPane.columnIndex="1" />
                </children>
             </GridPane>
-            <LineChart prefHeight="645.0" prefWidth="964.0" GridPane.rowIndex="1">
+            <LineChart fx:id="plot" prefHeight="645.0" prefWidth="964.0" GridPane.rowIndex="1">
               <xAxis>
                 <CategoryAxis prefHeight="0.0" prefWidth="907.0" side="BOTTOM" />
               </xAxis>
