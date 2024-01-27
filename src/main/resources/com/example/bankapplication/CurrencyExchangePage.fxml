@@ -125,7 +125,7 @@
                   <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="94.0" text="LOGOUT" GridPane.columnIndex="1" />
                </children>
             </GridPane>
-            <LineChart fx:id="plot" prefHeight="645.0" prefWidth="964.0" GridPane.rowIndex="1">
+            <LineChart fx:id="plot" animated="false" createSymbols="false" legendSide="RIGHT" prefHeight="574.0" prefWidth="964.0" GridPane.rowIndex="1">
               <xAxis>
                 <CategoryAxis prefHeight="0.0" prefWidth="907.0" side="BOTTOM" />
               </xAxis>

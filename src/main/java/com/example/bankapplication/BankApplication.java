@@ -9,6 +9,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -30,6 +31,7 @@ public class BankApplication extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(BankApplication.class.getResource("StartPage.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1280, 720);
         stage.setTitle("Bank Application");
+        stage.setResizable(false);
         stage.setScene(scene);
         stage.show();
         StageSetter.centerStage(stage);

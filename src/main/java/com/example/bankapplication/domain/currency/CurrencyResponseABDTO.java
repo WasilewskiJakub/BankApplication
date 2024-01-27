@@ -15,10 +15,15 @@ public class CurrencyResponseABDTO extends CurrencyResponseDTO implements IRespo
     @Override
     public List<Pair<String, Double>> GetData() {
         List<Pair<String, Double>> list = new ArrayList<>();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         for(RateABDTO price : rates){
             list.add(new Pair<>(price.effectiveDate.format(formatter),price.mid));
         }
         return list;
+    }
+    public void AddInterval(List<CurrencyResponseABDTO> dto){
+        for(var elem : dto){
+            this.rates.addAll(elem.rates);
+        }
     }
 }
