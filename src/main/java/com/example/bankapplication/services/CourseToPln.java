@@ -2,7 +2,6 @@ package com.example.bankapplication.services;
 
 import com.example.bankapplication.domain.course.CurrencyResponseABDTO;
 import com.example.bankapplication.domain.course.CurrencyResponseCDTO;
-import com.example.bankapplication.domain.course.CurrencyResponseDTO;
 import com.example.bankapplication.services.configuration.Currency;
 import com.example.bankapplication.services.configuration.NBPConector;
 import com.example.bankapplication.services.configuration.Table;
@@ -11,8 +10,6 @@ import com.example.bankapplication.services.helper.ResponseReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.time.LocalDate;
 
 import com.example.bankapplication.services.helper.adapter.LocalDateAdapter;
