@@ -1,7 +1,4 @@
 package com.example.bankapplication.controllers;
-import com.example.bankapplication.controllers.errors.ApiConnectioException;
-import com.example.bankapplication.controllers.errors.BadDateException;
-import com.example.bankapplication.controllers.errors.NoCurrencySellectedException;
 import com.example.bankapplication.functionalities.charts.CurrencyHolder;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -100,5 +97,10 @@ public class CurrencyExchangePageController implements Initializable {
         this.eurBox.setSelected(true);
         loadedData = null;
         csvButton.setVisible(false);
+    }
+
+    @FXML
+    public void switchToCalculatorPage(ActionEvent event) throws IOException {
+        SceneSwitcher.Switch("CalculatorPage.fxml",event);
     }
 }

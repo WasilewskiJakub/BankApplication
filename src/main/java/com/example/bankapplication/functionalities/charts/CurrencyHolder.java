@@ -9,8 +9,10 @@ import com.example.bankapplication.services.GoldService;
 import com.example.bankapplication.services.configuration.Currency;
 import com.example.bankapplication.services.configuration.Table;
 import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.util.Pair;
+
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -18,6 +20,13 @@ import java.util.List;
 import java.util.concurrent.*;
 
 public class CurrencyHolder {
+    public CurrencyResponseDTO usdList;
+    public CurrencyResponseDTO eurList;
+    public CurrencyResponseDTO gbpList;
+    public CurrencyResponseDTO chfList;
+    public GoldRateResponseDTO goldList;
+
+
     private static class CurrencyTask implements Callable<Pair<String, List<Pair<String,Double>>>> {
         private final String currencyCode;
         private final LocalDate startDate;
@@ -92,5 +101,28 @@ public class CurrencyHolder {
             chart.getData().add(series);
         }
         return data;
+    }
+
+    private double ExtractDataCurrencyExchange(LocalDate date, Currency currency) throws IOException, ExecutionException, InterruptedException {
+        return CurrencyService.getTableCDay(currency, date).rates.stream().findFirst().get().ask;
+    }
+
+    public void UpdateCurrencyValues(double amount, LocalDate date, CalculatorExchangePageController controller) throws IOException, ExecutionException, InterruptedException {
+        for (Currency currency : Currency.values()) {
+
+            if (currency.equals(Currency.CHF)){
+                controller.chfField.setText(String.format("%.2f", amount / this.ExtractDataCurrencyExchange(date, currency)));
+            }
+            if (currency.equals(Currency.USD)){
+                controller.usdField.setText(String.format("%.2f", amount / this.ExtractDataCurrencyExchange(date, currency)));
+            }
+            if (currency.equals(Currency.EUR)){
+                controller.eurField.setText(String.format("%.2f", amount / this.ExtractDataCurrencyExchange(date, currency)));
+            }
+            if (currency.equals(Currency.GBP)){
+                controller.gbpField.setText(String.format("%.2f", amount / this.ExtractDataCurrencyExchange(date, currency)));
+            }
+
+        }
     }
 }
