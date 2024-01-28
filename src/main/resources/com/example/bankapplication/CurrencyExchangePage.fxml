@@ -135,7 +135,7 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="94.0" text="LOGOUT" GridPane.columnIndex="1" />
+                  <Button onAction="#goToStart" mnemonicParsing="false" prefHeight="25.0" prefWidth="94.0" text="LOGOUT" GridPane.columnIndex="1" />
                   <Label fx:id="errorMessage" alignment="CENTER" prefHeight="17.0" prefWidth="861.0" textFill="RED">
                      <font>
                         <Font size="14.0" />

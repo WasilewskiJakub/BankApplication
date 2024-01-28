@@ -105,4 +105,9 @@ public class CurrencyExchangePageController implements Initializable {
     public void switchToCalculatorPage(ActionEvent event) throws IOException {
         SceneSwitcher.Switch("CalculatorPage.fxml",event);
     }
+
+    @FXML
+    public void goToStart(ActionEvent event) throws IOException {
+        SceneSwitcher.Switch("StartPage.fxml",event);
+    }
 }
