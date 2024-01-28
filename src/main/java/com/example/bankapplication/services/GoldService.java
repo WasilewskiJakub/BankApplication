@@ -1,8 +1,10 @@
 package com.example.bankapplication.services;
 
 import com.example.bankapplication.domain.currency.CurrencyResponseABDTO;
+import com.example.bankapplication.domain.currency.CurrencyResponseCDTO;
 import com.example.bankapplication.domain.gold.GoldPriceDTO;
 import com.example.bankapplication.domain.gold.GoldRateResponseDTO;
+import com.example.bankapplication.services.configuration.Table;
 import com.example.bankapplication.services.helper.adapter.LocalDateAdapter;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -34,13 +36,15 @@ public class GoldService extends APIConnectorService{
         return result;
     }
     public static GoldRateResponseDTO getCurrentGoldRateFromDates(LocalDate startDate,LocalDate endDate) throws IOException {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        String path = "api/cenyzlota/" + startDate.format(formatter) + "/" + endDate.format(formatter);
-        String response = makeConnection(path);
-        GoldRateResponseDTO result = new GoldRateResponseDTO();
-        result.cenaZlota = new GsonBuilder()
+        List<String> dates = splitDateRange(startDate, endDate, 90);
+        List<List<GoldPriceDTO>> goldPriceDTOList = new ArrayList<>();
+        for (int i = 0; i < dates.size(); i += 2) {
+            String path = "api/cenyzlota/" + dates.get(i) + "/" + dates.get(i + 1);
+            String response = makeConnection(path);
+            goldPriceDTOList.add(new GsonBuilder()
                 .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
-                .create().fromJson(response, new TypeToken<ArrayList<GoldPriceDTO>>() {}.getType());
-        return result;
+                .create().fromJson(response, new TypeToken<ArrayList<GoldPriceDTO>>() {}.getType()));
+        }
+        return new GoldRateResponseDTO(goldPriceDTOList);
     }
 }

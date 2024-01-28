@@ -19,4 +19,13 @@ public class GoldRateResponseDTO implements IResponseDTO {
         }
         return list;
     }
+    public GoldRateResponseDTO(){
+        this.cenaZlota = new ArrayList<>();
+    }
+    public GoldRateResponseDTO(List<List<GoldPriceDTO>> results){
+        this.cenaZlota = new ArrayList<>();
+        for(var list : results){
+            this.cenaZlota.addAll(list);
+        }
+    }
 }
