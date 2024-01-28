@@ -31,7 +31,6 @@ public class BankApplication extends Application {
 
         var t1 = CurrencyService.getTableABDay(Table.A,Currency.GBP,LocalDate.of(2012,02,28));
         var t2 = CurrencyService.getTableCDay(Currency.GBP,LocalDate.of(2012,02,28));
-
         
         FXMLLoader fxmlLoader = new FXMLLoader(BankApplication.class.getResource("StartPage.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1280, 720);
