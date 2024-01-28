@@ -1,5 +1,7 @@
 package com.example.bankapplication.controllers;
 import com.example.bankapplication.functionalities.charts.CurrencyHolder;
+import com.example.bankapplication.controllers.errors.*;
+import com.example.bankapplication.controllers.helper.SceneSwitcher;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;

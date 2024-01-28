@@ -1,6 +1,7 @@
 package com.example.bankapplication.functionalities.charts;
 
 import com.example.bankapplication.controllers.CurrencyExchangePageController;
+import com.example.bankapplication.controllers.CalculatorExchangePageController;
 import com.example.bankapplication.controllers.errors.ApiConnectioException;
 import com.example.bankapplication.controllers.errors.BadDateException;
 import com.example.bankapplication.controllers.errors.NoCurrencySellectedException;
@@ -20,12 +21,6 @@ import java.util.List;
 import java.util.concurrent.*;
 
 public class CurrencyHolder {
-    public CurrencyResponseDTO usdList;
-    public CurrencyResponseDTO eurList;
-    public CurrencyResponseDTO gbpList;
-    public CurrencyResponseDTO chfList;
-    public GoldRateResponseDTO goldList;
-
 
     private static class CurrencyTask implements Callable<Pair<String, List<Pair<String,Double>>>> {
         private final String currencyCode;
