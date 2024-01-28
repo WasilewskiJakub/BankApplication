@@ -34,6 +34,20 @@ public class CurrencyService extends APIConnectorService {
                 .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
                 .create().fromJson(response, CurrencyResponseCDTO.class);
     }
+    public static CurrencyResponseCDTO getTableCDay(Currency currency, LocalDate day) throws IOException {
+            String path = "api/exchangerates/rates/" + Table.C.toString() + "/" + currency.toString() + "/" + day.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            String response = makeConnection(path);
+            return new GsonBuilder()
+                    .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
+                    .create().fromJson(response, CurrencyResponseCDTO.class);
+    }
+    public static CurrencyResponseABDTO getTableABDay(Table table,Currency currency, LocalDate day) throws IOException {
+        String path = "api/exchangerates/rates/" + table.toString() + "/" + currency.toString() + "/" + day.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        String response = makeConnection(path);
+        return new GsonBuilder()
+                .registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
+                .create().fromJson(response, CurrencyResponseABDTO.class);
+    }
 
     public static CurrencyResponseCDTO getTableCDate(Currency currency, LocalDate startDate, LocalDate endDate) throws IOException {
         List<String> dates = splitDateRange(startDate, endDate, 90);
