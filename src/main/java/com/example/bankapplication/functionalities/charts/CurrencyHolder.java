@@ -1,6 +1,9 @@
 package com.example.bankapplication.functionalities.charts;
 
 import com.example.bankapplication.controllers.CurrencyExchangePageController;
+import com.example.bankapplication.controllers.errors.ApiConnectioException;
+import com.example.bankapplication.controllers.errors.BadDateException;
+import com.example.bankapplication.controllers.errors.NoCurrencySellectedException;
 import com.example.bankapplication.domain.currency.CurrencyResponseABDTO;
 import com.example.bankapplication.domain.currency.CurrencyResponseDTO;
 import com.example.bankapplication.domain.gold.GoldPriceDTO;
@@ -58,7 +61,7 @@ public class CurrencyHolder {
     }
 
 
-    private List<Pair<String,List<Pair<String,Double>>>> LoadData(LocalDate startDate, LocalDate endDate, CurrencyExchangePageController controller) throws IOException, ExecutionException, InterruptedException {
+    private List<Pair<String,List<Pair<String,Double>>>> LoadData(LocalDate startDate, LocalDate endDate, CurrencyExchangePageController controller) throws IOException, ExecutionException, InterruptedException, NoCurrencySellectedException {
         ExecutorService executorService = Executors.newFixedThreadPool(5);
         List<Future<Pair<String, List<Pair<String,Double>>>>> futures = new ArrayList<>();
         if (controller.usdBox.isSelected())
@@ -71,7 +74,8 @@ public class CurrencyHolder {
             futures.add(executorService.submit(new CurrencyTask("CHF", startDate, endDate)));
         if (controller.goldBox.isSelected())
             futures.add(executorService.submit(new GoldTask(startDate, endDate)));
-
+        if(futures.size() == 0)
+            throw new NoCurrencySellectedException();
         List<Pair<String,List<Pair<String,Double>>>> result = new ArrayList<>();
         for (var future : futures) {
                 Pair<String, List<Pair<String,Double>>> pair = future.get();
@@ -79,8 +83,19 @@ public class CurrencyHolder {
         }
         return result;
     }
-    public void ShowChart(LocalDate startDate, LocalDate endDate, CurrencyExchangePageController controller, LineChart<String,Double> chart) throws IOException, ExecutionException, InterruptedException {
-        var data = this.LoadData(startDate,endDate,controller);
+    public void ShowChart(LocalDate startDate, LocalDate endDate, CurrencyExchangePageController controller, LineChart<String,Double> chart) throws IOException, ExecutionException, InterruptedException, ApiConnectioException, BadDateException, NoCurrencySellectedException {
+        List<Pair<String,List<Pair<String,Double>>>> data;
+        if(!endDate.isAfter(startDate))
+            throw new BadDateException();
+        try {
+            data = this.LoadData(startDate, endDate, controller);
+        }
+        catch (NoCurrencySellectedException ex){
+            throw new NoCurrencySellectedException();
+        }
+        catch (Exception ex){
+            throw new ApiConnectioException();
+        }
         chart.getData().clear();
         for(var list : data){
             XYChart.Series<String, Double> series = new XYChart.Series<>();
