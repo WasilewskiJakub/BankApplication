@@ -1,5 +1,6 @@
 package com.example.bankapplication.functionalities.charts;
 
+import com.example.bankapplication.controllers.CalculatorExchangePageController;
 import com.example.bankapplication.controllers.CurrencyExchangePageController;
 import com.example.bankapplication.domain.currency.CurrencyResponseABDTO;
 import com.example.bankapplication.domain.currency.CurrencyResponseDTO;
@@ -10,7 +11,6 @@ import com.example.bankapplication.services.GoldService;
 import com.example.bankapplication.services.configuration.Currency;
 import com.example.bankapplication.services.configuration.Table;
 import javafx.scene.chart.LineChart;
-import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.util.Pair;
 
@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.*;
 
 public class CurrencyHolder {
@@ -79,6 +80,7 @@ public class CurrencyHolder {
         }
         return result;
     }
+
     public void ShowChart(LocalDate startDate, LocalDate endDate, CurrencyExchangePageController controller, LineChart<String,Double> chart) throws IOException, ExecutionException, InterruptedException {
         var data = this.LoadData(startDate,endDate,controller);
         chart.getData().clear();
@@ -89,6 +91,29 @@ public class CurrencyHolder {
             }
             series.setName(list.getKey());
             chart.getData().add(series);
+        }
+    }
+
+    private double ExtractDataCurrencyExchange(LocalDate date, Currency currency) throws IOException, ExecutionException, InterruptedException {
+        return CurrencyService.getTableCDay(currency, date).rates.stream().findFirst().get().ask;
+    }
+
+    public void UpdateCurrencyValues(double amount, LocalDate date, CalculatorExchangePageController controller) throws IOException, ExecutionException, InterruptedException {
+        for (Currency currency : Currency.values()) {
+
+            if (currency.equals(Currency.CHF)){
+                controller.chfField.setText(String.format("%.2f", amount / this.ExtractDataCurrencyExchange(date, currency)));
+            }
+            if (currency.equals(Currency.USD)){
+                controller.usdField.setText(String.format("%.2f", amount / this.ExtractDataCurrencyExchange(date, currency)));
+            }
+            if (currency.equals(Currency.EUR)){
+                controller.eurField.setText(String.format("%.2f", amount / this.ExtractDataCurrencyExchange(date, currency)));
+            }
+            if (currency.equals(Currency.GBP)){
+                controller.gbpField.setText(String.format("%.2f", amount / this.ExtractDataCurrencyExchange(date, currency)));
+            }
+
         }
     }
 }

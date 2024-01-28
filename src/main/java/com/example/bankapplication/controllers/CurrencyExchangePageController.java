@@ -1,4 +1,5 @@
 package com.example.bankapplication.controllers;
+import com.example.bankapplication.controllers.helper.SceneSwitcher;
 import com.example.bankapplication.functionalities.charts.CurrencyHolder;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -7,6 +8,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.DatePicker;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.concurrent.ExecutionException;
 
 public class CurrencyExchangePageController {
@@ -33,5 +35,10 @@ public class CurrencyExchangePageController {
     private void reloadChart(ActionEvent event) throws IOException, ExecutionException, InterruptedException {
         CurrencyHolder holder = new CurrencyHolder();
         holder.ShowChart(dateStart.getValue(),dateEnd.getValue(),this,plot);
+    }
+
+    @FXML
+    public void switchToCalculatorPage(ActionEvent event) throws IOException {
+        SceneSwitcher.Switch("CalculatorPage.fxml",event);
     }
 }
