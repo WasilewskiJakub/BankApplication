@@ -7,10 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.chart.LineChart;
-import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Pair;
@@ -39,6 +36,10 @@ public class CurrencyExchangePageController implements Initializable {
     public CheckBox chfBox;
     @FXML
     public Label errorMessage;
+    @FXML
+    public TextField movingAverageWindow;
+    @FXML
+    public CheckBox movingAverage;
 
     @FXML
     private DatePicker dateStart;
@@ -57,15 +58,16 @@ public class CurrencyExchangePageController implements Initializable {
         errorMessage.setText("");
         CurrencyHolder holder = new CurrencyHolder();
         try {
-            loadedData =  holder.ShowChart(dateStart.getValue(), dateEnd.getValue(), this, plot);
+            loadedData =  holder.ShowChart(dateStart.getValue(), dateEnd.getValue(), movingAverageWindow.getText(),movingAverage.isSelected(), this, plot);
             csvButton.setVisible(true);
         }catch (NoCurrencySellectedException ex){
             errorMessage.setText("Nie wybrano waluty.");
-        }
-        catch (BadDateException ex){
+        }catch (BadDateException ex){
             errorMessage.setText("Początek okresu musi być przed kończem okresu.");
         }catch (ApiConnectioException ex){
             errorMessage.setText("Problem z uzyskaniem danych z NBP API zmień zakres dat.");
+        }catch (BadMovingAverageWindowException ex){
+            errorMessage.setText("Długość okna do wyliczania średniej ruchomej jest niepoprawna");
         }catch (Exception ex){
             errorMessage.setText("Nie można wyświetlić danych. Zmień daty i spróbuj ponownie.");
         }
@@ -99,6 +101,8 @@ public class CurrencyExchangePageController implements Initializable {
         this.eurBox.setSelected(true);
         loadedData = null;
         csvButton.setVisible(false);
+        this.movingAverageWindow.setText("20");
+        this.movingAverage.setSelected(true);
     }
 
     @FXML

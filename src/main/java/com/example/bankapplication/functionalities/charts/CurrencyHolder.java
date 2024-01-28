@@ -4,6 +4,7 @@ import com.example.bankapplication.controllers.CurrencyExchangePageController;
 import com.example.bankapplication.controllers.CalculatorExchangePageController;
 import com.example.bankapplication.controllers.errors.ApiConnectioException;
 import com.example.bankapplication.controllers.errors.BadDateException;
+import com.example.bankapplication.controllers.errors.BadMovingAverageWindowException;
 import com.example.bankapplication.controllers.errors.NoCurrencySellectedException;
 import com.example.bankapplication.services.CurrencyService;
 import com.example.bankapplication.services.GoldService;
@@ -12,6 +13,7 @@ import com.example.bankapplication.services.configuration.Table;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import com.example.bankapplication.functionalities.charts.MathUtils.SMA;
 import javafx.util.Pair;
 
 import java.io.IOException;
@@ -73,7 +75,7 @@ public class CurrencyHolder {
         }
         return result;
     }
-    public List<Pair<String,List<Pair<String,Double>>>> ShowChart(LocalDate startDate, LocalDate endDate, CurrencyExchangePageController controller, LineChart<String,Double> chart) throws ApiConnectioException, BadDateException, NoCurrencySellectedException {
+    public List<Pair<String,List<Pair<String,Double>>>> ShowChart(LocalDate startDate, LocalDate endDate, String movingAverageWindow, Boolean movingAverageBoolean, CurrencyExchangePageController controller, LineChart<String,Double> chart) throws ApiConnectioException, BadDateException, NoCurrencySellectedException, BadMovingAverageWindowException {
         List<Pair<String,List<Pair<String,Double>>>> data;
         if(!endDate.isAfter(startDate))
             throw new BadDateException();
@@ -86,14 +88,28 @@ public class CurrencyHolder {
         catch (Exception ex){
             throw new ApiConnectioException();
         }
+        if(Integer.parseInt(movingAverageWindow) <= 0){
+            throw new BadMovingAverageWindowException();
+        }
         chart.getData().clear();
         for(var list : data){
             XYChart.Series<String, Double> series = new XYChart.Series<>();
-            for(var elements :list.getValue()){
-                series.getData().add(new XYChart.Data<>(elements.getKey(),elements.getValue()));
+            XYChart.Series<String, Double> seriesMovingAverage = new XYChart.Series<>();
+            SMA sma = new SMA(Integer.parseInt(movingAverageWindow));
+            for(var elements :list.getValue()) {
+                series.getData().add(new XYChart.Data<>(elements.getKey(), elements.getValue()));
+                if(movingAverageBoolean){
+                    double movingAverage = sma.compute(elements.getValue());
+                    seriesMovingAverage.getData().add(new XYChart.Data<>(elements.getKey(), movingAverage));
+                }
             }
             series.setName(list.getKey());
             chart.getData().add(series);
+
+            if(movingAverageBoolean){
+                seriesMovingAverage.setName(list.getKey() + "_ma");
+                chart.getData().add(seriesMovingAverage);
+            }
         }
         return data;
     }
