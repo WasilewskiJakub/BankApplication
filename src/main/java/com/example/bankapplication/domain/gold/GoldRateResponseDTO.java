@@ -13,7 +13,7 @@ public class GoldRateResponseDTO implements IResponseDTO {
     @Override
     public List<Pair<String, Double>> GetData() {
         List<Pair<String, Double>> list = new ArrayList<>();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         for(GoldPriceDTO price : cenaZlota){
             list.add(new Pair<>(price.data.format(formatter),price.cena));
         }
