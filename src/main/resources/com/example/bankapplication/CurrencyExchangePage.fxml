@@ -110,7 +110,7 @@
                       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <Button mnemonicParsing="false" onAction="#exportCSV" prefHeight="25.0" prefWidth="60.0" text="CSV" />
+                        <Button fx:id="csvButton" mnemonicParsing="false" onAction="#exportCSV" prefHeight="25.0" prefWidth="60.0" text="CSV" />
                      </children>
                   </GridPane>
                </children>

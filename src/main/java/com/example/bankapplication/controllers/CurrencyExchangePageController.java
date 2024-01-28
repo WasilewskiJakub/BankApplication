@@ -6,14 +6,23 @@ import com.example.bankapplication.functionalities.charts.CurrencyHolder;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.chart.LineChart;
+import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+import javafx.util.Pair;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.concurrent.ExecutionException;
 
@@ -38,13 +47,19 @@ public class CurrencyExchangePageController implements Initializable {
     private DatePicker dateEnd;
 
     @FXML
+    private Button csvButton;
+
+    private List<Pair<String, List<Pair<String,Double>>>> loadedData;
+
+    @FXML
     private LineChart<String,Double> plot;
     @FXML
     private void reloadChart(ActionEvent event) throws IOException, ExecutionException, InterruptedException {
         errorMessage.setText("");
         CurrencyHolder holder = new CurrencyHolder();
         try {
-            holder.ShowChart(dateStart.getValue(), dateEnd.getValue(), this, plot);
+            loadedData =  holder.ShowChart(dateStart.getValue(), dateEnd.getValue(), this, plot);
+            csvButton.setVisible(true);
         }catch (NoCurrencySellectedException ex){
             errorMessage.setText("Nie wybrano waluty.");
         }
@@ -58,7 +73,24 @@ public class CurrencyExchangePageController implements Initializable {
     }
     @FXML
     private void exportCSV(ActionEvent event){
-
+        this.errorMessage.setText("");
+        if(loadedData == null){
+            this.errorMessage.setText("No data to save");
+        }
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Open Resource File");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Pliki CSV (*.csv)", "*.csv"));
+        File file = fileChooser.showSaveDialog((Stage) ((Node) event.getSource()).getScene().getWindow());
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+            writer.write("currency;date;value\n");
+            for(var currency : this.loadedData){
+                for(var values : currency.getValue()){
+                    writer.write(currency.getKey()+";"+values.getKey()+";"+values.getValue()+"\n");
+                }
+            }
+        } catch (IOException ex){
+            this.errorMessage.setText("Wystąpił błąd podczas zapisu danych do pliku.");
+        }
     }
 
     @Override
@@ -66,5 +98,7 @@ public class CurrencyExchangePageController implements Initializable {
         this.dateEnd.setValue(LocalDate.now());
         this.dateStart.setValue(LocalDate.now().minusDays(14));
         this.eurBox.setSelected(true);
+        loadedData = null;
+        csvButton.setVisible(false);
     }
 }

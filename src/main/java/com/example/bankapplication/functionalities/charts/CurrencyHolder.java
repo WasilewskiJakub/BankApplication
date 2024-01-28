@@ -4,19 +4,13 @@ import com.example.bankapplication.controllers.CurrencyExchangePageController;
 import com.example.bankapplication.controllers.errors.ApiConnectioException;
 import com.example.bankapplication.controllers.errors.BadDateException;
 import com.example.bankapplication.controllers.errors.NoCurrencySellectedException;
-import com.example.bankapplication.domain.currency.CurrencyResponseABDTO;
-import com.example.bankapplication.domain.currency.CurrencyResponseDTO;
-import com.example.bankapplication.domain.gold.GoldPriceDTO;
-import com.example.bankapplication.domain.gold.GoldRateResponseDTO;
 import com.example.bankapplication.services.CurrencyService;
 import com.example.bankapplication.services.GoldService;
 import com.example.bankapplication.services.configuration.Currency;
 import com.example.bankapplication.services.configuration.Table;
 import javafx.scene.chart.LineChart;
-import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.util.Pair;
-
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -24,13 +18,6 @@ import java.util.List;
 import java.util.concurrent.*;
 
 public class CurrencyHolder {
-    public CurrencyResponseDTO usdList;
-    public CurrencyResponseDTO eurList;
-    public CurrencyResponseDTO gbpList;
-    public CurrencyResponseDTO chfList;
-    public GoldRateResponseDTO goldList;
-
-
     private static class CurrencyTask implements Callable<Pair<String, List<Pair<String,Double>>>> {
         private final String currencyCode;
         private final LocalDate startDate;
@@ -60,7 +47,6 @@ public class CurrencyHolder {
         }
     }
 
-
     private List<Pair<String,List<Pair<String,Double>>>> LoadData(LocalDate startDate, LocalDate endDate, CurrencyExchangePageController controller) throws IOException, ExecutionException, InterruptedException, NoCurrencySellectedException {
         ExecutorService executorService = Executors.newFixedThreadPool(5);
         List<Future<Pair<String, List<Pair<String,Double>>>>> futures = new ArrayList<>();
@@ -74,7 +60,7 @@ public class CurrencyHolder {
             futures.add(executorService.submit(new CurrencyTask("CHF", startDate, endDate)));
         if (controller.goldBox.isSelected())
             futures.add(executorService.submit(new GoldTask(startDate, endDate)));
-        if(futures.size() == 0)
+        if(futures.isEmpty())
             throw new NoCurrencySellectedException();
         List<Pair<String,List<Pair<String,Double>>>> result = new ArrayList<>();
         for (var future : futures) {
@@ -83,7 +69,7 @@ public class CurrencyHolder {
         }
         return result;
     }
-    public void ShowChart(LocalDate startDate, LocalDate endDate, CurrencyExchangePageController controller, LineChart<String,Double> chart) throws IOException, ExecutionException, InterruptedException, ApiConnectioException, BadDateException, NoCurrencySellectedException {
+    public List<Pair<String,List<Pair<String,Double>>>> ShowChart(LocalDate startDate, LocalDate endDate, CurrencyExchangePageController controller, LineChart<String,Double> chart) throws ApiConnectioException, BadDateException, NoCurrencySellectedException {
         List<Pair<String,List<Pair<String,Double>>>> data;
         if(!endDate.isAfter(startDate))
             throw new BadDateException();
@@ -105,5 +91,6 @@ public class CurrencyHolder {
             series.setName(list.getKey());
             chart.getData().add(series);
         }
+        return data;
     }
 }
