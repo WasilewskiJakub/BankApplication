@@ -130,14 +130,38 @@
                 <RowConstraints fillHeight="false" maxHeight="451.39999237060545" minHeight="10.0" prefHeight="88.80000610351564" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Dolar [USD]" textAlignment="CENTER" wrappingWidth="194.13671875" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Euro [EUR]" textAlignment="CENTER" wrappingWidth="193.33672714233398" GridPane.columnIndex="1" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Funt brytyjski [GBP]" textAlignment="CENTER" wrappingWidth="189.59998166561127" GridPane.columnIndex="2" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Frank szwajcarski [CHF]" textAlignment="CENTER" wrappingWidth="193.33673477172852" GridPane.columnIndex="3" />
-                  <Text fx:id="usdField" strokeType="OUTSIDE" strokeWidth="0.0" text="text1" wrappingWidth="194.13671875" GridPane.rowIndex="1" />
-                  <Text fx:id="eurField" strokeType="OUTSIDE" strokeWidth="0.0" text="text2" wrappingWidth="189.33672714233398" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <Text fx:id="gbpField" strokeType="OUTSIDE" strokeWidth="0.0" text="text3" wrappingWidth="192.5367488861084" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                  <Text fx:id="chfField" strokeType="OUTSIDE" strokeWidth="0.0" text="text4" wrappingWidth="192.78479385375977" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Dolar [USD]" textAlignment="CENTER" wrappingWidth="194.13671875">
+                     <font>
+                        <Font size="18.0" />
+                     </font></Text>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Euro [EUR]" textAlignment="CENTER" wrappingWidth="193.33672714233398" GridPane.columnIndex="1">
+                     <font>
+                        <Font size="18.0" />
+                     </font></Text>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Funt brytyjski [GBP]" textAlignment="CENTER" wrappingWidth="189.59998166561127" GridPane.columnIndex="2">
+                     <font>
+                        <Font size="18.0" />
+                     </font></Text>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Frank szwajcarski [CHF]" textAlignment="CENTER" wrappingWidth="193.33673477172852" GridPane.columnIndex="3">
+                     <font>
+                        <Font size="18.0" />
+                     </font></Text>
+                  <Text fx:id="usdField" strokeType="OUTSIDE" strokeWidth="0.0" text="text1" textAlignment="CENTER" wrappingWidth="178.13660430908203" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+                     <font>
+                        <Font size="18.0" />
+                     </font></Text>
+                  <Text fx:id="eurField" strokeType="OUTSIDE" strokeWidth="0.0" text="text2" textAlignment="CENTER" wrappingWidth="188.53680419921875" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+                     <font>
+                        <Font size="18.0" />
+                     </font></Text>
+                  <Text fx:id="gbpField" strokeType="OUTSIDE" strokeWidth="0.0" text="text3" textAlignment="CENTER" wrappingWidth="187.7368106842041" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+                     <font>
+                        <Font size="18.0" />
+                     </font></Text>
+                  <Text fx:id="chfField" strokeType="OUTSIDE" strokeWidth="0.0" text="text4" textAlignment="CENTER" wrappingWidth="193.58489847183228" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+                     <font>
+                        <Font size="18.0" />
+                     </font></Text>
                </children>
             </GridPane>
          </children>
