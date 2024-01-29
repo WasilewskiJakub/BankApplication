@@ -2,7 +2,6 @@ package com.example.bankapplication.domain.currency;
 
 import com.example.bankapplication.domain.IResponseDTO;
 import com.example.bankapplication.domain.currency.rate.RateABDTO;
-import com.example.bankapplication.domain.gold.GoldPriceDTO;
 import javafx.util.Pair;
 
 import java.time.format.DateTimeFormatter;
@@ -16,13 +15,14 @@ public class CurrencyResponseABDTO extends CurrencyResponseDTO implements IRespo
     public List<Pair<String, Double>> GetData() {
         List<Pair<String, Double>> list = new ArrayList<>();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        for(RateABDTO price : rates){
-            list.add(new Pair<>(price.effectiveDate.format(formatter),price.mid));
+        for (RateABDTO price : rates) {
+            list.add(new Pair<>(price.effectiveDate.format(formatter), price.mid));
         }
         return list;
     }
-    public void AddInterval(List<CurrencyResponseABDTO> dto){
-        for(var elem : dto){
+
+    public void AddInterval(List<CurrencyResponseABDTO> dto) {
+        for (var elem : dto) {
             this.rates.addAll(elem.rates);
         }
     }

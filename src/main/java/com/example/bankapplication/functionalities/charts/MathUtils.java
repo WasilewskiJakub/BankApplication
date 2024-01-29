@@ -72,7 +72,7 @@ public class MathUtils
                 values.removeFirst();
             }
             sum += value;
-            values.addLast(new Double(value));
+            values.addLast(value);
             average = sum / values.size();
             return average;
         }

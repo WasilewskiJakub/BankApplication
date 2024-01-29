@@ -14,17 +14,19 @@ public class GoldRateResponseDTO implements IResponseDTO {
     public List<Pair<String, Double>> GetData() {
         List<Pair<String, Double>> list = new ArrayList<>();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        for(GoldPriceDTO price : cenaZlota){
-            list.add(new Pair<>(price.data.format(formatter),price.cena));
+        for (GoldPriceDTO price : cenaZlota) {
+            list.add(new Pair<>(price.data.format(formatter), price.cena));
         }
         return list;
     }
-    public GoldRateResponseDTO(){
+
+    public GoldRateResponseDTO() {
         this.cenaZlota = new ArrayList<>();
     }
-    public GoldRateResponseDTO(List<List<GoldPriceDTO>> results){
+
+    public GoldRateResponseDTO(List<List<GoldPriceDTO>> results) {
         this.cenaZlota = new ArrayList<>();
-        for(var list : results){
+        for (var list : results) {
             this.cenaZlota.addAll(list);
         }
     }

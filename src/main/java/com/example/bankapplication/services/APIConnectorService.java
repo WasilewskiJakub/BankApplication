@@ -20,14 +20,15 @@ public class APIConnectorService {
         InputStream is = connection.getInputStream();
         return ResponseReader.GetResponseBody(connection);
     }
+
     protected static List<String> splitDateRange(LocalDate startDate, LocalDate endDate, int intervalDays) {
         List<String> intervals = new ArrayList<>();
         LocalDate currentStart = startDate;
         LocalDate currentEnd;
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        while(currentStart.isBefore(endDate)){
+        while (currentStart.isBefore(endDate)) {
             currentEnd = currentStart.plusDays(intervalDays);
-            if(currentEnd.isAfter(endDate)){
+            if (currentEnd.isAfter(endDate)) {
                 currentEnd = endDate;
             }
             intervals.add(currentStart.format(formatter));

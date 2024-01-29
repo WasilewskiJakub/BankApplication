@@ -1,4 +1,4 @@
 package com.example.bankapplication.controllers.errors;
 
-public class NoCurrencySellectedException extends Exception{
+public class NoCurrencySellectedException extends Exception {
 }

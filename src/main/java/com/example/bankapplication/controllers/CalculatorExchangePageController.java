@@ -3,25 +3,18 @@ package com.example.bankapplication.controllers;
 import com.example.bankapplication.controllers.errors.ApiConnectioException;
 import com.example.bankapplication.controllers.helper.SceneSwitcher;
 import com.example.bankapplication.functionalities.charts.CurrencyHolder;
-import com.example.bankapplication.services.CurrencyService;
-import com.example.bankapplication.services.configuration.Currency;
-import com.example.bankapplication.services.configuration.Table;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.chart.LineChart;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
-import javafx.util.Pair;
 
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
-import java.util.concurrent.ExecutionException;
 
 public class CalculatorExchangePageController implements Initializable {
 
@@ -41,10 +34,12 @@ public class CalculatorExchangePageController implements Initializable {
 
     @FXML
     private Label calculatorTitle;
+    @FXML
+    private Label errorMessage;
 
     @FXML
-    public void reloadChart(ActionEvent event) throws IOException {
-
+    private void reloadChart(ActionEvent event){
+        errorMessage.setText("");
         calculatorTitle.setText("Kurs z dnia " + date.getValue().toString());
         CurrencyHolder holder = new CurrencyHolder();
 
@@ -53,10 +48,12 @@ public class CalculatorExchangePageController implements Initializable {
             double doubleValue = Double.parseDouble(inputText);
             System.out.println("Parsed double value: " + doubleValue);
             holder.UpdateCurrencyValues(doubleValue, date.getValue(), this);
-        } catch (NumberFormatException e) {
-            System.out.println("Nieprawidłowa wartość do przewalutowania");
-        } catch (ExecutionException | InterruptedException e) {
-            e.printStackTrace();
+        } catch (ApiConnectioException ex) {
+            errorMessage.setText("Nie można pobrać kursu walut dla podanego dnia");
+        } catch (NumberFormatException ex) {
+            errorMessage.setText("Nieprawidłowa wartość do przewalutowania");
+        } catch (Exception ex) {
+            errorMessage.setText("Nie można obliczyć wartości.");
         }
     }
 
@@ -72,13 +69,13 @@ public class CalculatorExchangePageController implements Initializable {
     }
 
     @FXML
-    public void switchToCurrencyExchangePage(ActionEvent event) throws IOException {
-        SceneSwitcher.Switch("CurrencyExchangePage.fxml",event);
+    private void switchToCurrencyExchangePage(ActionEvent event) throws IOException {
+        SceneSwitcher.Switch("CurrencyExchangePage.fxml", event);
     }
 
     @FXML
-    public void goToStart(ActionEvent event) throws IOException {
-        SceneSwitcher.Switch("StartPage.fxml",event);
+    private void goToStart(ActionEvent event) throws IOException {
+        SceneSwitcher.Switch("StartPage.fxml", event);
     }
 }
 
